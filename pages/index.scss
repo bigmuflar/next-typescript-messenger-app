@@ -1,0 +1,45 @@
+div {
+  font-family: 'Helvetica', 'sans-serif';
+}
+#container {
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+}
+#messages {
+  border: 1px solid #fafafa;
+  padding: 5px;
+  margin-bottom: 15px;
+}
+.message {
+  margin-bottom: 0.33em;
+}
+h1 {
+  color: #ccbc1d;
+}
+.clear {
+  clear: both;
+}
+button {
+  background-color: #ff257b;
+  color: #ffffff;
+  font-weight: bold;
+  border: 0px;
+  border-radius: 2px;
+  height: 2em;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin: 5px;
+  float: left;
+}
+textarea {
+  height: 2.1em;
+  margin: 5px;
+  float: left;
+  width: 330px;
+  border-radius: 2px;
+}
+.content {
+  margin-left: 1em;
+}
