@@ -1,21 +1,15 @@
 import { Component } from 'react'
 import io from 'socket.io-client'
 import fetch from 'isomorphic-fetch'
-const { alias } = require('../now.json');
-interface MessageField extends Message {
-  field: string,
-  messages: Message[],
-}
+import { MessageField, Message } from 'models';
+import './index.scss';
+const port = process.env.PORT || 8000;
 
-interface Message {
-  id?: number,
-  value?: string,
-}
 class HomePage extends Component<MessageField, {}> {
-  public socket: SocketIOClient.Socket = io(alias);
+  public socket: SocketIOClient.Socket = io(`http://localhost:${port}`);
   // fetch old messages data from the server
   static async getInitialProps() {
-    const response = await fetch(`${alias}/messages`)
+    const response = await fetch(`http://localhost:${port}/messages`)
     const messages = await response.json()
     return { messages }
   }
@@ -69,23 +63,27 @@ class HomePage extends Component<MessageField, {}> {
 
   render() {
     return (
-      <main>
-        <div>
+      <main className="wrapper">
+        <h1 className="box header">Next Socket Chat</h1>
+        <div className="box content">
           <ul>
             {this.state.messages.map(message =>
               <li key={message.id}>{message.value}</li>
             )}
           </ul>
-          <form onSubmit={this.handleSubmit}>
+        </div>
+        <footer className="box footer">
+          <form className="footer__form" onSubmit={this.handleSubmit}>
             <input
+              className="footer__input"
               onChange={this.handleChange}
               type="text"
-              placeholder="Hello world!"
+              placeholder="Welcome to the chat!"
               value={this.state.field}
             />
             <button>Send</button>
           </form>
-        </div>
+        </footer>
       </main>
     )
   }
