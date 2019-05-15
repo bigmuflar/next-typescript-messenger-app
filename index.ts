@@ -5,7 +5,7 @@ import * as socketIo from "socket.io";
 import * as next from 'next';
 import * as express from 'express';
 
-const port: string | number = process.env.PORT || 3000;
+const port: string | number = process.env.PORT || 8000;
 const dev = process.env.NODE_ENV !== 'production'
 const nextApp = next({ dev })
 const nextHandler = nextApp.getRequestHandler()

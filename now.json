@@ -1,29 +1,18 @@
 {
     "version": 2,
     "name": "next-typescript-messenger-app",
-    "alias": "https://next-typescript-messenger-app.justinscottmed.now.sh",
+    "alias": "https://next-typescript-messenger-app.now.sh",
     "env": {
       "NODE_ENV": "production"
     },
     "builds": [
       { 
         "src": "./pages/index.tsx",
-        "use": "@now/static",
-        "config": {
-          "includeFiles": [
-            "models/**",
-            "pages/**"
-          ]
-        }
+        "use": "@now/static"
       },
       { 
         "src": "./index.ts", 
-        "use": "@now/node",
-        "config": {
-          "includeFiles": [
-            "models/message.ts"
-          ]
-        }
+        "use": "@now/node"
       }
     ]
   }

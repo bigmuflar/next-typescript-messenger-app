@@ -1,18 +1,23 @@
 import { Component } from 'react'
 import io from 'socket.io-client'
 import fetch from 'isomorphic-fetch'
+const { alias } = require('../now.json');
+interface MessageField extends Message {
+  field: string,
+  messages: Message[],
+}
 
-class HomePage extends Component {
+interface Message {
+  id?: number,
+  value?: string,
+}
+class HomePage extends Component<MessageField, {}> {
+  public socket: SocketIOClient.Socket = io(alias);
   // fetch old messages data from the server
   static async getInitialProps() {
-    const alias = require('../now.json');
     const response = await fetch(`${alias}/messages`)
     const messages = await response.json()
     return { messages }
-  }
-
-  static defaultProps = {
-    messages: [],
   }
 
   // init state with the prefetched messages
@@ -23,7 +28,6 @@ class HomePage extends Component {
 
   // connect to WS server and listen events
   componentDidMount() {
-    this.socket = io(alias)
     this.socket.on('message', this.handleMessage)
   }
 
@@ -34,20 +38,21 @@ class HomePage extends Component {
   }
 
   // add messages from server to the state
-  handleMessage = (message) => {
-    this.setState(state => ({ messages: state.messages.concat(message) }))
+  handleMessage = (message: Message) => {
+    this.setState(() => ({ messages: this.state.messages.concat(message) }))
   }
 
-  handleChange = event => {
+  handleChange = (event: any) => {
     this.setState({ field: event.target.value });
   }
 
   // send messages to server and add them to the state
-  handleSubmit = event => {
+  handleSubmit = (event: any) => {
     event.preventDefault()
 
+
     // create message object
-    const message = {
+    const message: Message = {
       id: (new Date()).getTime(),
       value: this.state.field,
     }
@@ -56,7 +61,7 @@ class HomePage extends Component {
     this.socket.emit('message', message)
 
     // add it to state and clean current input value
-    this.setState(state => ({
+    this.setState((state: MessageField) => ({
       field: '',
       messages: state.messages.concat(message)
     }))
